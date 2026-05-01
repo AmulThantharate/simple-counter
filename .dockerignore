@@ -1,0 +1,12 @@
+node_modules
+dist
+dist-ssr
+.wrangler
+.tanstack
+.vinxi
+.output
+npm-debug.log*
+.git
+.gitignore
+.dev.vars
+.dev.vars.*

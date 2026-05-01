@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+  namespace: simple-counter
+data:
+  REDIS_HOST: simple-counter-redis
+  REDIS_PORT: "6379"
+  REDIS_DATABASE: "0"
+  REDIS_TLS: "false"
+  COUNTER_REDIS_KEY: counter-app:state:v1
