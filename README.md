@@ -1,52 +1,81 @@
-# Conftest
+# Simple Counter
 
-[![Go Report Card](https://goreportcard.com/badge/open-policy-agent/opa)](https://goreportcard.com/report/open-policy-agent/conftest) [![Netlify](https://api.netlify.com/api/v1/badges/2d928746-3380-4123-b0eb-1fd74ba390db/deploy-status)](https://app.netlify.com/sites/vibrant-villani-65041c/deploys)
+A modern, production-ready full-stack application built with **TanStack Start**, featuring a robust CI/CD pipeline and automated Kubernetes deployments.
 
-Conftest helps you write tests against structured configuration data. Using Conftest you can
-write tests for your Kubernetes configuration, Tekton pipeline definitions, Terraform code,
-Serverless configs or any other config files.
+## 🚀 Features
 
-Conftest uses the Rego language from [Open Policy Agent](https://www.openpolicyagent.org/) for writing
-the assertions. You can read more about Rego in the [Policy Language](https://www.openpolicyagent.org/docs/policy-language)
-section in the Open Policy Agent documentation.
+- **Frontend**: Built with React and [TanStack Start](https://tanstack.com/start).
+- **Styling**: Modern UI using **Tailwind CSS** and **Radix UI** components.
+- **State Management**: Leveraging **TanStack Query** for efficient data fetching and state handling.
+- **Testing**: Comprehensive test suite using **Vitest**.
+- **CI/CD**: Fully automated pipeline with **Jenkins**, **SonarQube**, and **Trivy**.
+- **Deployment**: GitOps-based deployment using **ArgoCD** on **Kubernetes**.
 
-Here's a quick example. Save the following as `policy/deployment.rego`:
+## 🛠️ Tech Stack
 
-```rego
-package main
+- **Core**: React 19, TypeScript
+- **Routing**: TanStack Router
+- **UI Components**: Radix UI, Lucide React
+- **Validation**: Zod
+- **Build Tool**: Vite
+- **Testing**: Vitest, React Testing Library
+- **Containerization**: Docker
+- **Orchestration**: Kubernetes (ArgoCD)
 
-deny contains msg if {
-  input.kind == "Deployment"
-  not input.spec.template.spec.securityContext.runAsNonRoot
+## 📦 Getting Started
 
-  msg := "Containers must not run as root"
-}
+### Prerequisites
 
-deny contains msg if {
-  input.kind == "Deployment"
-  not input.spec.selector.matchLabels.app
+- Node.js (v20 or later)
+- npm or bun
 
-  msg := "Containers must provide app label for pod selectors"
-}
-```
+### Local Development
 
-Assuming you have a Kubernetes deployment in `deployment.yaml` you can run Conftest like so:
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/AmulThantharate/simple-counter.git
+    cd simple-counter
+    ```
 
-```console
-$ conftest test deployment.yaml
-FAIL - deployment.yaml - Containers must not run as root
-FAIL - deployment.yaml - Containers must provide app label for pod selectors
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
 
-2 tests, 0 passed, 0 warnings, 2 failures, 0 exceptions
-```
+3.  **Run the development server**:
+    ```bash
+    npm run dev
+    ```
+    The app will be available at `http://localhost:3000`.
 
-Conftest isn't specific to Kubernetes. It will happily let you write tests for any configuration files in a variety of different formats. See the [documentation](https://www.conftest.dev/) for [installation instructions](https://www.conftest.dev/install/) and
-more details about the features.
+4.  **Run tests**:
+    ```bash
+    npm run test
+    ```
 
-## Want to contribute to Conftest?
+## 🏗️ CI/CD Pipeline
 
-* See [DEVELOPMENT.md](DEVELOPMENT.md) to build and test Conftest itself.
-* See [CONTRIBUTING.md](CONTRIBUTING.md) to get started.
+The project includes a sophisticated Jenkins pipeline (`Jenkinsfile`) that ensures code quality and security:
 
-For discussions and questions join us on the [Open Policy Agent Slack](https://slack.openpolicyagent.org/)
-in the `#opa-conftest` channel.
+1.  **Install Dependencies**: Clean install of all project dependencies.
+2.  **Lint**: Code quality check using ESLint.
+3.  **Test**: Unit and smoke tests using Vitest.
+4.  **SonarQube**: Static code analysis and quality gate verification.
+5.  **Security Scans**:
+    - **Trivy File System Scan**: Checks for vulnerabilities in dependencies.
+    - **Trivy Image Scan**: Scans the Docker image for security flaws.
+    - **Confest Policy Check**: Validates Kubernetes manifests against security policies.
+6.  **Docker Build & Push**: Automatically builds and pushes images to Docker Hub.
+7.  **ArgoCD Sync**: Updates the Kubernetes deployment manifests in the repository, triggering an automated sync by ArgoCD.
+
+## ☸️ Deployment
+
+Deployment is managed via **ArgoCD**. The configuration can be found in `argo.yaml`.
+
+- **Namespace**: `simple-counter`
+- **Path**: `k8s/`
+- **Auto-Sync**: Enabled with self-healing and pruning.
+
+## 📄 License
+
+This project is licensed under the MIT License.
